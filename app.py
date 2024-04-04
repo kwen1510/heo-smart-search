@@ -51,7 +51,7 @@ if st.button("Search"):
     search_results = search(query, ann_index, metadata_array, num_results)
 
     for result in search_results:
-        st.text(f"Page: {result['page_number']}
+        st.text(f"Page: {result['page_number']"}
 Text: {result['text'].replace('\n', ' ')}\n------\n")
 
 # Include 'cohere' in your requirements.txt for deployment
