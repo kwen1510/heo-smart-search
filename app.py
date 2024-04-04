@@ -55,6 +55,6 @@ if st.button("Search"):
         words = result['text'].replace('\n', ' ').strip().split()
         truncated_text = ' '.join(words[:30]) + "..."
         
-        st.subheader("Page: " + result['page_number'] + "\nText: " + truncated_text + "\n------\n")
+        st.text("Page: " + result['page_number'] + "\nContext: " + truncated_text + "\n------\n")
 
 # Include 'cohere' in your requirements.txt for deployment
