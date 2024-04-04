@@ -36,9 +36,9 @@ loaded_data = load_json_file("split_text.json")
 ann_index = build_or_load_index()
 
 # Streamlit interface
-st.title("Your App Title Here")
+st.title("HEO Search Tool")
 
-query = st.text_input("Enter your query here", "why study science")
+query = st.text_input("Enter your query here")
 num_results = st.slider("Number of results", 1, 5, 3, 1)
 
 if st.button("Search"):
