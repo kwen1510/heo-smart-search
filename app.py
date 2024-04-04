@@ -39,7 +39,7 @@ ann_index = build_or_load_index()
 st.title("Your App Title Here")
 
 query = st.text_input("Enter your query here", "why study science")
-num_results = st.slider("Number of results", 1, 5, 1)
+num_results = st.slider("Number of results", 1, 5, 3, 1)
 
 if st.button("Search"):
     # Preparing metadata array; adjust according to your structure if needed
@@ -55,6 +55,6 @@ if st.button("Search"):
         words = result['text'].replace('\n', ' ').strip().split()
         truncated_text = ' '.join(words[:30]) + "..."
         
-        st.text("Page: " + result['page_number'] + "\nText: " + truncated_text + "\n------\n")
+        st.write("Page: " + result['page_number'] + "\nText: " + truncated_text + "\n------\n")
 
 # Include 'cohere' in your requirements.txt for deployment
