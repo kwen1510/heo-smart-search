@@ -1,8 +1,8 @@
 import streamlit as st
 import json
+import os
 from annoy import AnnoyIndex
 import cohere
-import os
 
 # Initialize Cohere client
 co = cohere.Client(os.getenv('COHERE_API_KEY'))
@@ -22,25 +22,13 @@ def build_or_load_index():
     return u
 
 # Search function
-def search(query, index, metadata, links, num_results=1):
+def search(query, index, metadata, num_results=1):
     # Generate query embedding with Cohere
     response = co.embed(texts=[query], model='large')
     query_embedding = response.embeddings[0]
     
     nearest_neighbors = index.get_nns_by_vector(query_embedding, num_results)
-    results = []
-    for i in nearest_neighbors:
-        result = metadata[i]
-        page_number = result['page_number']
-        text = result['text']
-        # Extract page number from text
-        page_number = page_number.split()[-1]
-        # Compare with keys in links.json
-        for key, value in links.items():
-            if page_number.strip().lower() in key.strip().lower():
-                results.append((text, value))
-                break
-    return results
+    return [metadata[i] for i in nearest_neighbors]
 
 # Load data and index on app start
 loaded_data = load_json_file("split_text.json")
@@ -60,10 +48,16 @@ if st.button("Search"):
         for value in values:
             metadata_array.append({"page_number": key, "text": value})
             
-    search_results = search(query, ann_index, metadata_array, links_data, num_results)
+    search_results = search(query, ann_index, metadata_array, num_results)
 
-    for text, link in search_results:
-        words = text.replace('\n', ' ').strip().split()
+    for result in search_results:
+        words = result['text'].replace('\n', ' ').strip().split()
         truncated_text = ' '.join(words[:30]) + "..."
-        st.text("Page: " + "\nContext: " + truncated_text + "\n------\n")
-        st.markdown(f"[Link](link)")
+        
+        page_key = result['page_number'].replace("Guide to Arts Majors 2022 page ", "").strip()
+        link = links_data.get(page_key.lower(), "No link available")
+        
+        st.text("Page: " + result['page_number'] + "\nContext: " + truncated_text + "\n------\n")
+        st.markdown(f"[Read more]({link})")
+
+# Include 'cohere' in your requirements.txt for deployment
