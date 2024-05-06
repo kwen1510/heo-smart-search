@@ -54,7 +54,10 @@ if st.button("Search"):
         words = result['text'].replace('\n', ' ').strip().split()
         truncated_text = ' '.join(words[:30]) + "..."
         
-        page_key = result['page_number'].replace("Guide to Arts Majors 2022 page ", "").strip()
+        page_key = result['page_number'].split(" page")[0].strip()
+
+        print(page_key)
+        
         link = links_data.get(page_key.lower(), "No link available")
         
         st.text("Page: " + result['page_number'] + "\nContext: " + truncated_text + "\n------\n")
