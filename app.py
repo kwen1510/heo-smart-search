@@ -61,6 +61,6 @@ if st.button("Search"):
         link = links_data.get(page_key, "No link available")
         
         st.text("Page: " + result['page_number'] + "\nContext: " + truncated_text + "\n------\n")
-        st.markdown(f"[Read more]({link})")
+        st.markdown(f"[Click here to access the document]({link})")
 
 # Include 'cohere' in your requirements.txt for deployment
