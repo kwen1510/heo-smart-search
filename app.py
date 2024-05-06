@@ -54,11 +54,11 @@ if st.button("Search"):
         words = result['text'].replace('\n', ' ').strip().split()
         truncated_text = ' '.join(words[:30]) + "..."
         
-        page_key = result['page_number'].split(" page")[0].strip().lower()
+        page_key = result['page_number'].split(" page")[0].strip()
 
         st.text(page_key)
         
-        link = links_data.get(page_key.lower(), "No link available")
+        link = links_data.get(page_key, "No link available")
         
         st.text("Page: " + result['page_number'] + "\nContext: " + truncated_text + "\n------\n")
         st.markdown(f"[Read more]({link})")
