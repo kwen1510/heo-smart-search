@@ -1,4 +1,3 @@
-
 import streamlit as st
 import json
 from annoy import AnnoyIndex
@@ -23,16 +22,29 @@ def build_or_load_index():
     return u
 
 # Search function
-def search(query, index, metadata, num_results=1):
+def search(query, index, metadata, links, num_results=1):
     # Generate query embedding with Cohere
     response = co.embed(texts=[query], model='large')
     query_embedding = response.embeddings[0]
     
     nearest_neighbors = index.get_nns_by_vector(query_embedding, num_results)
-    return [metadata[i] for i in nearest_neighbors]
+    results = []
+    for i in nearest_neighbors:
+        result = metadata[i]
+        page_number = result['page_number']
+        text = result['text']
+        # Extract page number from text
+        page_number = page_number.split()[-1]
+        # Compare with keys in links.json
+        for key, value in links.items():
+            if page_number.strip().lower() in key.strip().lower():
+                results.append((text, value))
+                break
+    return results
 
 # Load data and index on app start
 loaded_data = load_json_file("split_text.json")
+links_data = load_json_file("links.json")
 ann_index = build_or_load_index()
 
 # Streamlit interface
@@ -48,13 +60,10 @@ if st.button("Search"):
         for value in values:
             metadata_array.append({"page_number": key, "text": value})
             
-    search_results = search(query, ann_index, metadata_array, num_results)
+    search_results = search(query, ann_index, metadata_array, links_data, num_results)
 
-    for result in search_results:
-
-        words = result['text'].replace('\n', ' ').strip().split()
+    for text, link in search_results:
+        words = text.replace('\n', ' ').strip().split()
         truncated_text = ' '.join(words[:30]) + "..."
-        
-        st.text("Page: " + result['page_number'] + "\nContext: " + truncated_text + "\n------\n")
-
-# Include 'cohere' in your requirements.txt for deployment
+        st.text("Page: " + "\nContext: " + truncated_text + "\n------\n")
+        st.markdown(f"[Link](link)")
