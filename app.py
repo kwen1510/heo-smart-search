@@ -54,7 +54,7 @@ if st.button("Search"):
         words = result['text'].replace('\n', ' ').strip().split()
         truncated_text = ' '.join(words[:30]) + "..."
         
-        page_key = result['page_number'].split(" page")[0].strip()
+        page_key = result['page_number'].split(" page")[0].strip().lower()
 
         st.text(page_key)
         
