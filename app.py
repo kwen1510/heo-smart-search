@@ -24,9 +24,6 @@ except Exception as e:
 
 # Initialize Cohere client
 co = cohere.Client(os.getenv('COHERE_API_KEY'))
-client = MongoClient(st.secrets["MONGO_DB"])
-db = client.HEO
-collection = db.HEO_queries
 
 # Load JSON Data
 def load_json_file(file_path):
@@ -44,6 +41,10 @@ def build_or_load_index():
 
 # Search function
 def search(query, index, metadata, num_results=1):
+
+    # Save question to MongoDB
+    collection.insert_one({"question": question})
+    
     # Generate query embedding with Cohere
     response = co.embed(texts=[query], model='large')
     query_embedding = response.embeddings[0]
