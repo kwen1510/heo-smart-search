@@ -6,6 +6,9 @@ import cohere
 
 # Initialize Cohere client
 co = cohere.Client(os.getenv('COHERE_API_KEY'))
+client = MongoClient(st.secrets["MONGO_DB"])
+db = client.HEO
+collection = db.HEO_queries
 
 # Load JSON Data
 def load_json_file(file_path):
@@ -37,9 +40,6 @@ ann_index = build_or_load_index()
 
 # Streamlit interface
 st.title("HEO Search Tool")
-
-
-st.text(st.secrets["MONGO_DB"])
 
 query = st.text_input("Enter your query here")
 num_results = st.slider("Number of results", 1, 5, 3, 1)
