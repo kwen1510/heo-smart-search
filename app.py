@@ -6,7 +6,7 @@ import cohere
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 
-password = st.secrets["MONGO_DB"])
+password = st.secrets(["MONGO_DB"])
 
 uri = f"mongodb+srv://kwen1510:{password}@cluster0.bwtbeur.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 
