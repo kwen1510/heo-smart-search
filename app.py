@@ -55,8 +55,6 @@ if st.button("Search"):
         truncated_text = ' '.join(words[:30]) + "..."
         
         page_key = result['page_number'].split(" page")[0].strip()
-
-        # st.text(page_key)
         
         link = links_data.get(page_key, "No link available")
         
