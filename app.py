@@ -39,7 +39,7 @@ ann_index = build_or_load_index()
 st.title("HEO Search Tool")
 
 
-st.text(st.secrets["MONGO_DB"]
+st.text(st.secrets["MONGO_DB"])
 
 query = st.text_input("Enter your query here")
 num_results = st.slider("Number of results", 1, 5, 3, 1)
