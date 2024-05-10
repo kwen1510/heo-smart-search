@@ -13,12 +13,11 @@ uri = f"mongodb+srv://kwen1510:applepear123@cluster0.bwtbeur.mongodb.net/?retryW
 # Create a new client and connect to the server
 client = MongoClient(uri, server_api=ServerApi('1'))
 
-print(client)
-
 # Send a ping to confirm a successful connection
 try:
     client.admin.command('ping')
     print("Pinged your deployment. You successfully connected to MongoDB!")
+    st.text("PINGED")
 except Exception as e:
     print(e)
 
