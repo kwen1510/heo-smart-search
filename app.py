@@ -43,7 +43,7 @@ def build_or_load_index():
 def search(query, index, metadata, num_results=1):
 
     # Save question to MongoDB
-    collection.insert_one({"question": question})
+    collection.insert_one({"question": query})
     
     # Generate query embedding with Cohere
     response = co.embed(texts=[query], model='large')
