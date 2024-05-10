@@ -2,3 +2,4 @@ streamlit
 annoy
 cohere
 pymongo
+ptyz
