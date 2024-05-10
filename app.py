@@ -6,7 +6,6 @@ import cohere
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 from datetime import datetime
-import pytz
 
 uri = st.secrets["MONGO_DB"]
 
@@ -43,11 +42,9 @@ def build_or_load_index():
 def search(query, index, metadata, num_results=1):
 
     # Save question to MongoDB
-    singapore_time_zone = pytz.timezone("Asia/Singapore")  # Define Singapore timezone
-    current_time = datetime.now(singapore_time_zone)  # Get current date and time in Singapore timezone
+    current_time = datetime.now()  # Get current date and time
     collection.insert_one({"question": query, "timestamp": current_time})
-    st.success("Question saved with timestamp!")
-    
+
     # Generate query embedding with Cohere
     response = co.embed(texts=[query], model='large')
     query_embedding = response.embeddings[0]
