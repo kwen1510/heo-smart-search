@@ -56,7 +56,7 @@ if st.button("Search"):
         
         page_key = result['page_number'].split(" page")[0].strip()
 
-        st.text(page_key)
+        # st.text(page_key)
         
         link = links_data.get(page_key, "No link available")
         
