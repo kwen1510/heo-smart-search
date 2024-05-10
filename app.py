@@ -4,6 +4,8 @@ import os
 from annoy import AnnoyIndex
 import cohere
 
+st.text(st.secrets["MONGO_DB"])
+
 # Initialize Cohere client
 co = cohere.Client(os.getenv('COHERE_API_KEY'))
 client = MongoClient(st.secrets["MONGO_DB"])
